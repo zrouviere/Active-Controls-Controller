@@ -12,7 +12,7 @@ File logger;
 
 
 
-
+#define FILE_NAME loggerTEST.csv
 bool debug = TRUE;
 
 void setup() {
@@ -32,8 +32,12 @@ void setup() {
     initBNO055();
 
   }
-
-
+  openFile();
+  //File Header
+  logger.println("GPS DATA,,,,,,,,,,,BME680 DATA,,,,,BMP388 DATA,,,BNO055 DATA,,,,,,,,,,,,,,,,,");
+  logger.println("HH:MM:SS,Millis,Date,Fix,Fix Quality,Satellites,Latitude,Longitude,Altitude (m),Speed (knots),Angle (degrees),Pressure (hPa),Altitude (m),Temperature (C),Humidity (%),Gas (kOhms),Pressure (hPa),Altitude (m),Temperature (C),Acceleration (m/s^2),,,Orientation (degrees),,,Gravity (m/s^2),,,Angular Velocity (rad/s),,,Linear Acceleration (m/s^2),,,Magnetism (uT),,");
+  logger.println(",,,,,,,,,,,,,,,,,,,x,y,z,x,y,z,x,y,z,x,y,z,x,y,z,x,y,z");
+  logger.close();
   //TODO: Set init indicator to true
 }
 
@@ -54,7 +58,7 @@ void openFile() {
 
   //If the file is new, we want to put the proper headers.
  
-  String fileName = "logger1.csv";
+  String fileName = FILE_NAME;
 
   logger = SD.open(fileName, FILE_WRITE);
 
@@ -73,7 +77,7 @@ void printAll() {
   Serial.println ("Altitude: " + String(bme680_getAltitude()) + " m");
   Serial.println ("Temperature: " + String(bme680_getTemperature()) + " C");
   Serial.println ("Humidity: " + String(bme680_getHumidity()) + "%");
-  Serial.println ("Gas: " + String(bme680_getGas()) + " Kohms");
+  Serial.println ("Gas: " + String(bme680_getGas()) + " kOm/s^2m hms");
 
   Serial.println ("----------BMP388 DATA----------");
   Serial.println ("Pressure: " + String(bmp388_getPressure()) + " hPa");
@@ -99,23 +103,24 @@ void logData() {
   //GPS DATA
   openFile();
 
+  logger.print(GPS.month, DEC); logger.print('/');
+  logger.print(GPS.day, DEC); logger.print("/20");
+  logger.print(GPS.year, DEC);
+  logger.print(",");
   if (GPS.hour < 10) {
     logger.print('0');
   }
   logger.print(GPS.hour, DEC); logger.print(':');
-  logger.print(",");
 
   if (GPS.minute < 10) {
     logger.print('0');
   }
   logger.print(GPS.minute, DEC); logger.print(':');
-  logger.print(",");
 
   if (GPS.seconds < 10) {
     logger.print('0');
   }
-  logger.print(GPS.seconds, DEC); logger.print('.');
-  logger.print(",");
+  logger.print(GPS.seconds, DEC); logger.print(',');
 
   if (GPS.milliseconds < 10) {
     logger.print("00");
@@ -126,13 +131,12 @@ void logData() {
   logger.print(",");
 
 
-  logger.print(GPS.month, DEC); logger.print('/');
-  logger.print(GPS.day, DEC); logger.print("/20");
-  logger.print(GPS.year, DEC);
-  logger.print(",");
+
   logger.print((int)GPS.fix);
   logger.print(",");
   logger.print((int)GPS.fixquality);
+  logger.print(",");
+  logger.print((int)GPS.satellites);
   logger.print(",");
 
 
@@ -140,14 +144,14 @@ void logData() {
   logger.print(",");
   logger.print(GPS.longitude, 4); logger.print(GPS.lon);
   logger.print(",");
+  logger.print(GPS.altitude);
+  logger.print(",");
   logger.print(GPS.speed);
   logger.print(",");
   logger.print(GPS.angle);
   logger.print(",");
-  logger.print(GPS.altitude);
-  logger.print(",");
-  logger.print((int)GPS.satellites);
-  logger.print(",");
+
+ 
 
   //BME680 DATA
   logger.print (String(bme680_getPressure()));
@@ -170,12 +174,12 @@ void logData() {
   logger.print(",");
 
   //BNO055
-  logger.print ("," + String(bno055_getAcceleration().x) + "," + String(bno055_getAcceleration().y)  + "," + String(bno055_getAcceleration().z) + ",");
-  logger.print ("," + String(bno055_getOrientation().x) + "," + String(bno055_getOrientation().y)  + "," + String(bno055_getOrientation().z) + ",");
-  logger.print ("," + String(bno055_getGravity().x) + "," + String(bno055_getGravity().y)  + "," + String(bno055_getGravity().z) + ",");
-  logger.print ("," + String(bno055_getAngularVelocity().x) + "," + String(bno055_getAngularVelocity().y)  + "," + String(bno055_getAngularVelocity().z) + ",");
-  logger.print ("," + String(bno055_getLinearAcceleration().x) + "," + String(bno055_getLinearAcceleration().y)  + "," + String(bno055_getLinearAcceleration().z) + ",");
-  logger.print ("," + String(bno055_getMagnetism().x) + "," + String(bno055_getMagnetism().y)  + "," + String(bno055_getMagnetism().z) + ",");
+  logger.print (String(bno055_getAcceleration().x) + "," + String(bno055_getAcceleration().y)  + "," + String(bno055_getAcceleration().z) + ",");
+  logger.print (String(bno055_getOrientation().x) + "," + String(bno055_getOrientation().y)  + "," + String(bno055_getOrientation().z) + ",");
+  logger.print (String(bno055_getGravity().x) + "," + String(bno055_getGravity().y)  + "," + String(bno055_getGravity().z) + ",");
+  logger.print (String(bno055_getAngularVelocity().x) + "," + String(bno055_getAngularVelocity().y)  + "," + String(bno055_getAngularVelocity().z) + ",");
+  logger.print (String(bno055_getLinearAcceleration().x) + "," + String(bno055_getLinearAcceleration().y)  + "," + String(bno055_getLinearAcceleration().z) + ",");
+  logger.print (String(bno055_getMagnetism().x) + "," + String(bno055_getMagnetism().y)  + "," + String(bno055_getMagnetism().z) + ",");
 
   logger.println("");
 
