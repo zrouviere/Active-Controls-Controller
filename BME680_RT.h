@@ -42,10 +42,10 @@ void initBME680_debug() {
   if (!bme.begin()) {
     Serial.println("Could not find a valid BME680 sensor, check wiring!");
   }
-  else{
+  else {
     Serial.println("BME680 sensor successfully initialized!");
 
-    }
+  }
 
   // Set up oversampling and filter initialization
   bme.setTemperatureOversampling(BME680_OS_8X);
@@ -56,7 +56,7 @@ void initBME680_debug() {
 }
 
 void initBME680() {
-  
+
   bme.begin();
 
   // Set up oversampling and filter initialization
@@ -66,38 +66,38 @@ void initBME680() {
   bme.setIIRFilterSize(BME680_FILTER_SIZE_3);
   bme.setGasHeater(320, 150); // 320*C for 150 ms
 }
-double bme680_getPressure(){
+double bme680_getPressure() {
   //Returns pressure in hPa (Pa*10^2)
 
-  return bme.pressure/100;
-  
+  return bme.pressure / 100;
+
 }
 
-double bme680_getAltitude(){
-  //Get APPROXIMATE Altitude in meters 
+double bme680_getAltitude() {
+  //Get APPROXIMATE Altitude in meters
   return bme.readAltitude(SEALEVELPRESSURE_HPA);
-  
-  }
-
-
-double bme680_getTemperature(){
-//Returns temperature in degrees Celcius
-
-return bme.temperature;
 
 }
 
-double bme680_getHumidity(){
-//Returns humidity in %
 
-return bme.humidity;
+double bme680_getTemperature() {
+  //Returns temperature in degrees Celcius
+
+  return bme.temperature;
 
 }
 
-double bme680_getGas(){
-//Returns gas resistance in Kohms
+double bme680_getHumidity() {
+  //Returns humidity in %
 
-return bme.gas_resistance / 1000.0;
+  return bme.humidity;
+
+}
+
+double bme680_getGas() {
+  //Returns gas resistance in Kohms
+
+  return bme.gas_resistance / 1000.0;
 
 }
 #endif

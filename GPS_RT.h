@@ -93,8 +93,8 @@ void gps_print(){
     }
     Serial.println(GPS.milliseconds);
     Serial.print("Date: ");
-    Serial.print(GPS.day, DEC); Serial.print('/');
-    Serial.print(GPS.month, DEC); Serial.print("/20");
+    Serial.print(GPS.month, DEC); Serial.print('/');
+    Serial.print(GPS.day, DEC); Serial.print("/20");
     Serial.println(GPS.year, DEC);
     Serial.print("Fix: "); Serial.print((int)GPS.fix);
     Serial.print(" quality: "); Serial.println((int)GPS.fixquality);
