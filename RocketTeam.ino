@@ -12,7 +12,7 @@ File logger;
 
 
 
-#define FILE_NAME loggerTEST.csv
+String fileName = "loggertest.csv";
 bool debug = TRUE;
 
 void setup() {
@@ -58,7 +58,7 @@ void openFile() {
 
   //If the file is new, we want to put the proper headers.
  
-  String fileName = FILE_NAME;
+  
 
   logger = SD.open(fileName, FILE_WRITE);
 
