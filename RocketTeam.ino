@@ -12,7 +12,7 @@ File logger;
 
 
 
-String fileName = "loggertest.csv";
+String fileName = "test.csv";
 bool debug = TRUE;
 
 void setup() {
@@ -35,7 +35,7 @@ void setup() {
   openFile();
   //File Header
   logger.println("GPS DATA,,,,,,,,,,,BME680 DATA,,,,,BMP388 DATA,,,BNO055 DATA,,,,,,,,,,,,,,,,,");
-  logger.println("HH:MM:SS,Millis,Date,Fix,Fix Quality,Satellites,Latitude,Longitude,Altitude (m),Speed (knots),Angle (degrees),Pressure (hPa),Altitude (m),Temperature (C),Humidity (%),Gas (kOhms),Pressure (hPa),Altitude (m),Temperature (C),Acceleration (m/s^2),,,Orientation (degrees),,,Gravity (m/s^2),,,Angular Velocity (rad/s),,,Linear Acceleration (m/s^2),,,Magnetism (uT),,");
+  logger.println("Date,HH:MM:SS,Millis,Fix,Fix Quality,Satellites,Latitude,Longitude,Altitude (m),Speed (knots),Angle (degrees),Pressure (hPa),Altitude (m),Temperature (C),Humidity (%),Gas (kOhms),Pressure (hPa),Altitude (m),Temperature (C),Acceleration (m/s^2),,,Orientation (degrees),,,Gravity (m/s^2),,,Angular Velocity (rad/s),,,Linear Acceleration (m/s^2),,,Magnetism (uT),,");
   logger.println(",,,,,,,,,,,,,,,,,,,x,y,z,x,y,z,x,y,z,x,y,z,x,y,z,x,y,z");
   logger.close();
   //TODO: Set init indicator to true
@@ -51,7 +51,7 @@ void loop() {
     printAll();
 
   logData();
-  delay(10000);
+ // delay(10);
 }
 
 void openFile() {

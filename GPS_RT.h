@@ -20,12 +20,18 @@ void initGPS_debug(){
   }
   else{
      // turn on RMC (recommended minimum) and GGA (fix data) including altitude
-  GPS.sendCommand(PMTK_SET_NMEA_OUTPUT_RMCGGA);
+  
 
-  GPS.sendCommand(PMTK_SET_NMEA_UPDATE_1HZ); // 1 Hz update rate
   // For the parsing code to work nicely and have time to sort thru the data, and
   // print it out we don't suggest using anything higher than 1 Hz
-    
+
+  //UPDATE BAUD RATE
+       GPS.sendCommand("$PMTK251,38400*27<CR><LF>");
+   GPSSerial.end();
+   GPSSerial.begin(38400);
+     GPS.sendCommand(PMTK_SET_NMEA_UPDATE_5HZ); // 1 Hz update rate
+     GPS.sendCommand(PMTK_SET_NMEA_OUTPUT_RMCGGA);
+
     //Wait for GPS to get satelite fix
     Serial.println("Waiting for GPS to connect to satellite...");
     gps_update();
@@ -46,13 +52,13 @@ void initGPS(){
   GPS.begin(9600);   
 
    // uncomment this line to turn on RMC (recommended minimum) and GGA (fix data) including altitude
-  GPS.sendCommand(PMTK_SET_NMEA_OUTPUT_RMCGGA);
-  // Set the update rate
-  GPS.sendCommand(PMTK_SET_NMEA_UPDATE_1HZ); // 1 Hz update rate
-  // For the parsing code to work nicely and have time to sort thru the data, and
-  // print it out we don't suggest using anything higher than 1 Hz
-   //Wait for GPS to get satelite fix
-    
+  //UPDATE BAUD RATE
+       GPS.sendCommand("$PMTK251,38400*27<CR><LF>");
+   GPSSerial.end();
+   GPSSerial.begin(38400);
+     GPS.sendCommand(PMTK_SET_NMEA_UPDATE_5HZ); // 1 Hz update rate
+     GPS.sendCommand(PMTK_SET_NMEA_OUTPUT_RMCGGA);
+
     gps_update();
     while(!GPS.fix){
       gps_update();
@@ -71,6 +77,7 @@ void gps_update(){
     // we end up not listening and catching other sentences!
     // so be very wary if using OUTPUT_ALLDATA and trying to print out data
     //Serial.println(GPS.lastNMEA()); // this also sets the newNMEAreceived() flag to false
+        Serial.println(GPS.lastNMEA());
     if (GPS.parse(GPS.lastNMEA())) // this also sets the newNMEAreceived() flag to false
       success = true; // we can fail to parse a sentence in which case we should just wait for another
     }

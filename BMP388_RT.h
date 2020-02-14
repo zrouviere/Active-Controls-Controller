@@ -8,7 +8,7 @@
 #define BMP_MOSI 20
 
 
-#define SEALEVELPRESSURE_HPA (1013.25)
+#define SEALEVELPRESSURE_HPA (1015.58)
 
 
 #ifndef BMP388_RT

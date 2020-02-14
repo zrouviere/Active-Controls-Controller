@@ -29,7 +29,7 @@
 #define BME_MOSI 51
 #define BME_CS 49
 
-#define SEALEVELPRESSURE_HPA (1013.25)
+#define SEALEVELPRESSURE_HPA (1015.58)
 
 //Adafruit_BME680 bme; // I2C
 Adafruit_BME680 bme(BME_CS); // hardware SPI
